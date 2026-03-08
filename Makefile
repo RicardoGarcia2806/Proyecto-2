@@ -10,7 +10,6 @@ LDFLAGS = -lm
 #si escribimos "make banco", se ejecutara el programa
 banco: banco.c banco.h
 	$(CC) $(CFLAGS) -o banco banco.c $(LDFLAGS)
-	./banco archivo_config.txt
 
 #esto quita el ejecutable creado al compilar banco.c y banco.h
 clean:
