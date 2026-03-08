@@ -80,8 +80,7 @@ int cola_vacia(Cola *c) {
     return c->size == 0;
 }
 
-//esta parte deberia leer el archivo y verificar que la entrada sea valida, sino, lanza un error
-//hay que verificar que esto corra bien (Brian borra el comentario cuando esta parte sirva)
+//esta parte lee el archivo y verifica que la entrada sea valida, si no, lanza un error
 int leer_config(const char *filename, Config *cfg) {
 
     //esto hace que el archivo se abra en modo lectura 
@@ -298,10 +297,6 @@ int main(int argc, char *argv[]) {
     calcular_teorico(config.CAJEROS, config.LAMBDA, config.MU, &rho, &Wq_teo, &W_teo);
     int estable = rho<1.0;
 
-    /* diagnostic output */
-    printf("DEBUG: Wq_sim=%.6f Wq_teo=%.6f W_sim=%.6f W_teo=%.6f rho=%.4f\n",
-           Wq_sim, Wq_teo, W_sim, W_teo, rho);
-
     /* Este es el informe, o resumen, de lo que sucedio en la simulacion del cajero  */
     printf("==================================================\n");
     printf("RESUMEN FINAL\n");
@@ -326,8 +321,8 @@ int main(int argc, char *argv[]) {
         printf("Tiempo promedio de espera teorico: %.2f\n", Wq_teo);
         printf("Tiempo promedio en sistema teorico: %.2f\n", W_teo);
         {
-            double errWq = Wq_teo > 0.0 ? 100.0 * fabs(Wq_teo - Wq_sim) / Wq_sim : 0.0;
-            double errW  = W_teo > 0.0  ? 100.0 * fabs(W_teo  - W_sim)  / W_sim  : 0.0;
+            double errWq = Wq_teo > 0.0 ? 100.0 * fabs(Wq_teo - Wq_sim) / Wq_teo : 0.0;
+            double errW  = W_teo > 0.0  ? 100.0 * fabs(W_teo  - W_sim)  / W_teo  : 0.0;
             printf("Error relativo Wq: %.1f %%\n", errWq);
             printf("Error relativo W: %.1f %%\n", errW);
         }
