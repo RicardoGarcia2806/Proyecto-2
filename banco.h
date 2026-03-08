@@ -1,7 +1,7 @@
 #ifndef BANCO_H
 #define BANCO_H
 
-#include <pthread.h>;
+#include <pthread.h>
 
 #define MAX_PARAM_LINE 128
 #define STRLEN_PARAM   32

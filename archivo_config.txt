@@ -1,0 +1,8 @@
+# Archivo de configuracion banco.txt
+# Comentarios permitidos con #
+
+CAJEROS=4
+TCIERRE=10000
+LAMBDA=0.10
+MU=0.08
+MAX_CLIENTES=3000
