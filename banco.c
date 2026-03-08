@@ -208,20 +208,29 @@ double log_factorial(int n) {
 
 //calcula el valor teorico del lambda, el mu y el rho 
 void calcular_teorico(int cajeros, double lambda, double mu, double *rho, double *Wq, double *W) {
-    double a = lambda/mu;
-    (*rho) = a/cajeros;
+    double a = lambda / mu;
+    *rho = a / cajeros;
+
     if ((*rho) >= 1.0) return;
 
-    /* Sumatorio de k = 0 a c-1: (a^k)/k! */
-    //double log_sum = 0.0;
+    // Sumatorio de k = 0 a c-1: sum += (a^k)/k! usando log para evitar overflows
+    double log_a = log(a);
     double sum = 0.0;
-    for (int k=0; k<cajeros; k++)
-        sum += exp(k*log(a) - log_factorial(k));
-    double log_a_c = cajeros*log(a) - log_factorial(cajeros);
-    double C = exp(log_a_c) / (1-(*rho));
-    double P_wait = C / (sum + C);
-    *Wq = P_wait/(cajeros*mu - lambda);
-    *W = *Wq + 1/mu;
+
+    for (int k = 0; k < cajeros; k++) {
+        double term_log = k * log_a - log_factorial(k);
+        sum += exp(term_log);
+    }
+
+    // Calcular en log: log(a^c / c!) = c*log_a - log_factorial(c)
+    double log_a_c_over_fact = cajeros * log_a - log_factorial(cajeros);
+    double a_c_over_fact = exp(log_a_c_over_fact);
+
+    double Cc = a_c_over_fact / (1 - *rho); // factor en el numerador
+    double P_wait = Cc / (sum + Cc);
+
+    *Wq = P_wait / (cajeros * mu - lambda);
+    *W = *Wq + 1 / mu;
 }
 
 //esta es la funcion principal, aqui se ejecuta toda la logica del banco
